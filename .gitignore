@@ -1,0 +1,9 @@
+# idea files
+.idea
+
+# virtual environment files
+/venv
+
+# pyc and pycache files
+*.pyc
+*__pycache__
