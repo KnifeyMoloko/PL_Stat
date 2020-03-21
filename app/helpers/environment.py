@@ -19,5 +19,4 @@ def get_api_key():
         return env_vars["API_KEY"]
     else:
         print(env_vars)
-        logger.error("Did not find API_KEY in environment variables!")
-        raise ValueError
+        raise ValueError("Did not find API_KEY in environment variables!")

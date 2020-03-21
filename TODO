@@ -1,3 +1,2 @@
-# TODO: automate the GET test (200 status code, expected content)
 # TODO: methods for getting metadata
 # TODO: request factory function using the metadata as params to choose from by the user
