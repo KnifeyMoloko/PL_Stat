@@ -17,10 +17,30 @@ class RestClient(object):
         :param ssl: should the client work in SSL mode or not
         :param api_key: optional for working with APIs needing keys
         """
-        self.url_prefix = "https://" if ssl else "http://"
-        self.host = "bdl.stat.gov.pl"
-        self.endpoint = "/api/v1/"
+        self.__url_prefix = "https://" if ssl else "http://"
+        self.__host = "bdl.stat.gov.pl"
+        self.__endpoint = "/api/v1/"
         self.__api_key = api_key
+
+    @property
+    def api_key(self):
+        return self.__api_key
+
+    @property
+    def url_prefix(self):
+        return self.__url_prefix
+
+    @property
+    def host(self):
+        return self.__host
+
+    @property
+    def endpoint(self):
+        return self.__endpoint
+
+    @endpoint.setter
+    def endpoint(self, value):
+        self.__endpoint = value
 
     def get(self, resource_path: str) -> requests.Response:
         """
@@ -32,12 +52,14 @@ class RestClient(object):
         :rtype: json
         """
         # construct request headers
-        headers = {"X-ClientId": self.__api_key,
+        headers = {"X-ClientId": self.api_key,
                    "Host": "bdl.stat.gov.pl",
                    "Content-Type": "application/json"}
 
+        logger.debug(f"Using headers: {headers}")
+
         # construct url string
-        url = f"{self.url_prefix}{self.host}{self.endpoint}{resource_path}"
+        url = f"{self.__url_prefix}{self.__host}{self.__endpoint}{resource_path}"
 
         logger.info(f"Attempting a GET request for: {url}")
         return requests.get(url=url,

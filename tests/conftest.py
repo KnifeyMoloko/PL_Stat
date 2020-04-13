@@ -4,6 +4,7 @@ Author: Maciej Cisowski
 """
 import pytest
 from app.rest.rest_client import RestClient
+from app.helpers.environment import get_api_key
 
 
 def pytest_addoption(parser):
@@ -17,11 +18,6 @@ def pytest_addoption(parser):
 
 # FIXTURES
 
-
-def api_key(request):
-    return request.config.getoption('API_KEY')
-
-
 @pytest.fixture(scope="session")
-def rest(request) -> RestClient:
-    return RestClient(ssl=True, api_key=api_key(request))
+def rest() -> RestClient:
+    return RestClient(ssl=True, api_key=get_api_key())
