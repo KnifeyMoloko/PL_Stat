@@ -11,15 +11,19 @@ logger = getLogger("rest.RestClient")
 
 
 class RestClient(object):
-    def __init__(self, ssl: bool, api_key: str):
+    def __init__(self,
+                 ssl: bool,
+                 host: str = None,
+                 endpoint: str = None,
+                 api_key: str = None):
         """
         Create a rest client instance for making http/s requests.
         :param ssl: should the client work in SSL mode or not
         :param api_key: optional for working with APIs needing keys
         """
         self.__url_prefix = "https://" if ssl else "http://"
-        self.__host = "bdl.stat.gov.pl"
-        self.__endpoint = "/api/v1/"
+        self.__host = host
+        self.__endpoint = endpoint
         self.__api_key = api_key
 
     @property
@@ -42,12 +46,14 @@ class RestClient(object):
     def endpoint(self, value):
         self.__endpoint = value
 
-    def get(self, resource_path: str) -> requests.Response:
+    def get(self, resource_path: str, additional_headers: dict = None) -> requests.Response:
         """
         Sends a GET method request to the host resource specified
         by the resource path. Returns a JSON type response and throws
         a ConnectionError in case of problems.
         :param resource_path: string with the path to the resource
+        :param additional_headers: a dict of headers to add to the
+        default ones
         :return: request response
         :rtype: json
         """
@@ -55,6 +61,10 @@ class RestClient(object):
         headers = {"X-ClientId": self.api_key,
                    "Host": "bdl.stat.gov.pl",
                    "Content-Type": "application/json"}
+
+        # add additional headers if needed
+        if additional_headers:
+            headers.update(additional_headers)
 
         logger.debug(f"Using headers: {headers}")
 

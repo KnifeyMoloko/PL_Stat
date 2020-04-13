@@ -1,2 +1,4 @@
+# TODO: document get_levels
+# TODO: methods for other general categories
 # TODO: methods for getting metadata
 # TODO: request factory function using the metadata as params to choose from by the user
